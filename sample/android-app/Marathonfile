@@ -1,0 +1,37 @@
+name: "sample-app tests"
+outputDir: "build/reports/marathon"
+isCodeCoverageEnabled: true
+retryStrategy:
+  type: "fixed-quota"
+  totalAllowedRetryQuota: 100
+  retryPerTestQuota: 2
+vendorConfiguration:
+  type: "Android"
+  applicationApk: "app/build/outputs/apk/debug/app-debug.apk"
+  testApplicationApk: "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+  autoGrantPermission: true
+  instrumentationArgs:
+    debug: "false"
+  applicationPmClear: true
+  testApplicationPmClear: true
+  waitForDevicesTimeoutMillis: 60000
+  # See https://marathonlabs.github.io/marathon/ven/android.html#test-parser before copy-pasting this
+  testParserConfiguration:
+    type: "remote"
+    instrumentationArgs:
+      listener: "com.malinskiy.adam.junit4.android.listener.TestAnnotationProducer"
+  fileSyncConfiguration:
+    pull:
+    - relativePath: "files/allure-results"
+      pathRoot: APP_DATA
+      aggregationMode: TEST_RUN
+  allureConfiguration:
+    enabled: true
+  # See https://marathonlabs.github.io/marathon/ven/android.html#test-access-configuration before copy-pasting this
+  testAccessConfiguration:
+    adb: true
+    grpc: true
+    console: true
+deviceInitializationTimeoutMillis: 180000
+uncompletedTestRetryQuota: 3
+debug: true
